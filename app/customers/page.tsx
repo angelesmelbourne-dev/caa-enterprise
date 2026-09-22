@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
 
 export default function CustomersPage() {
@@ -7,6 +7,21 @@ export default function CustomersPage() {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [notes, setNotes] = useState("");
+  const [customers, setCustomers] = useState<any[]>([]);
+
+  const fetchCustomers = async () => {
+    const { data, error } = await supabase
+      .from("customers")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    setCustomers(data || []);
+  };
   const handleSaveCustomer = async () => {
     if (!name.trim()) {
       alert("Customer name is required.");
@@ -31,6 +46,8 @@ export default function CustomersPage() {
     }
 
     alert("Customer saved!");
+
+    fetchCustomers();
 
     setName("");
     setPhone("");
@@ -175,7 +192,42 @@ export default function CustomersPage() {
               >
                 Save Customer
               </button>
+              <div className="mt-8">
 
+                <h2 className="text-xl font-semibold mb-4">
+                  Customer List
+                </h2>
+
+                <div className="space-y-4">
+
+                  {customers.map((customer) => (
+                    <div
+                      key={customer.id}
+                      className="
+          rounded-xl
+          border
+          border-zinc-800
+          bg-zinc-900
+          p-4
+        "
+                    >
+                      <h3 className="font-semibold">
+                        {customer.name}
+                      </h3>
+
+                      <p className="text-zinc-400">
+                        {customer.phone}
+                      </p>
+
+                      <p className="text-zinc-500 text-sm">
+                        {customer.address}
+                      </p>
+                    </div>
+                  ))}
+
+                </div>
+
+              </div>
 
             </div>
 
