@@ -1,4 +1,42 @@
+"use client";
+import { useState } from "react";
+import { supabase } from "@/lib/supabaseClient";
+
 export default function CustomersPage() {
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [notes, setNotes] = useState("");
+  const handleSaveCustomer = async () => {
+    if (!name.trim()) {
+      alert("Customer name is required.");
+      return;
+    }
+    const { error } = await supabase
+      .from("customers")
+      .insert([
+        {
+          tenant_id: crypto.randomUUID(),
+          name,
+          phone,
+          address,
+          notes,
+        },
+      ]);
+
+    if (error) {
+      console.error(error);
+      alert("Failed to save customer.");
+      return;
+    }
+
+    alert("Customer saved!");
+
+    setName("");
+    setPhone("");
+    setAddress("");
+    setNotes("");
+  };
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
 
@@ -68,66 +106,76 @@ export default function CustomersPage() {
               <input
                 type="text"
                 placeholder="Customer Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 className="
-        rounded-lg
-        border
-        border-zinc-700
-        bg-zinc-950
-        px-4
-        py-3
-      "
+    rounded-lg
+    border
+    border-zinc-700
+    bg-zinc-950
+    px-4
+    py-3
+  "
               />
 
               <input
                 type="text"
                 placeholder="Phone Number"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
                 className="
-        rounded-lg
-        border
-        border-zinc-700
-        bg-zinc-950
-        px-4
-        py-3
-      "
+    rounded-lg
+    border
+    border-zinc-700
+    bg-zinc-950
+    px-4
+    py-3
+  "
               />
 
               <input
                 type="text"
                 placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
                 className="
-        rounded-lg
-        border
-        border-zinc-700
-        bg-zinc-950
-        px-4
-        py-3
-      "
+    rounded-lg
+    border
+    border-zinc-700
+    bg-zinc-950
+    px-4
+    py-3
+  "
               />
 
               <textarea
                 placeholder="Notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 className="
-        rounded-lg
-        border
-        border-zinc-700
-        bg-zinc-950
-        px-4
-        py-3
-      "
+    rounded-lg
+    border
+    border-zinc-700
+    bg-zinc-950
+    px-4
+    py-3
+  "
               />
 
               <button
+                onClick={handleSaveCustomer}
                 className="
-        rounded-xl
-        bg-emerald-600
-        px-5
-        py-3
-        font-medium
-        hover:bg-emerald-700
-      "
+    rounded-xl
+    bg-emerald-600
+    px-5
+    py-3
+    font-medium
+    hover:bg-emerald-700
+  "
               >
                 Save Customer
               </button>
+
 
             </div>
 

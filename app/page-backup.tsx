@@ -82,6 +82,14 @@ export default function POSPage() {
       product.name.toLowerCase().includes(search.toLowerCase()) ||
       product.sku?.toLowerCase().includes(search.toLowerCase())
   );
+  
+const [showReceipt, setShowReceipt] = useState(false);
+
+const [receiptData, setReceiptData] = useState<{
+  items: CartItem[];
+  total: number;
+  saleId: string;
+} | null>(null);
 
   return (
     <div className="h-screen bg-black text-white flex">
