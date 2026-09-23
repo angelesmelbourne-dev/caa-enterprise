@@ -367,7 +367,31 @@ export default function JobOrdersPage() {
 
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Job Order List</h2>
+          <div className="flex gap-6 mb-4 text-sm text-zinc-400">
 
+            <p>
+              Total Job Orders: {jobOrders.length}
+            </p>
+
+            <p>
+              Open: {
+                jobOrders.filter(
+                  (j) =>
+                    j.status === "pending" ||
+                    j.status === "in_progress"
+                ).length
+              }
+            </p>
+
+            <p>
+              Completed: {
+                jobOrders.filter(
+                  (j) => j.status === "completed"
+                ).length
+              }
+            </p>
+
+          </div>
           {loadingList && <p className="text-zinc-500">Loading…</p>}
           {!loadingList && jobOrders.length === 0 && (
             <p className="text-zinc-500">No job orders yet.</p>
