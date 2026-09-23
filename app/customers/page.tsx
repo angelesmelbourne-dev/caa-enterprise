@@ -65,7 +65,9 @@ export default function CustomersPage() {
             <h1 className="text-3xl font-bold">
               Customers
             </h1>
-
+            <p className="text-zinc-400 mt-2">
+              Total Customers: {customers.length}
+            </p>
             <p className="text-zinc-400 mt-2">
               Manage customer information.
             </p>
