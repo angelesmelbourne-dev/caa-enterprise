@@ -1,0 +1,34 @@
+ShopGrid v0.1 Foundation
+
+Date:
+2026-09-23
+
+Git Commit:
+5cbd956 Added dashboard v1
+
+Completed Modules:
+
+✓ Customers
+✓ Vehicles
+✓ Job Orders
+✓ Dashboard v1
+
+Workflow:
+
+Customer
+↓
+Vehicle
+↓
+Job Order
+↓
+Dashboard
+
+Git Milestones:
+
+5cbd956 Added dashboard v1
+73e2965 Completed customer vehicle job order workflow
+2c0946e Added job order workflow
+61f0487 Added vehicle management workflow
+ba6aec0 Added customer listing from database
+2eaf3d2 Added customer creation workflow
+d2bbf05 Created customer management page
