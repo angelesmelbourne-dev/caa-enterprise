@@ -1,3 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabaseClient";
 import AppSidebar from "@/components/AppSidebar";
 
 export default function ProtectedLayout({
@@ -5,6 +10,34 @@ export default function ProtectedLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const checkSession = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (!session) {
+        router.replace("/login");
+        return;
+      }
+
+      setLoading(false);
+    };
+
+    checkSession();
+  }, [router]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-white flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
+
   return (
     <div className="flex min-h-screen">
       <AppSidebar />
