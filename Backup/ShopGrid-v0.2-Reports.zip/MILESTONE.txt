@@ -1,0 +1,10 @@
+ShopGrid v0.2
+
+✅ Customers
+✅ Vehicles
+✅ Job Orders
+✅ Dashboard
+✅ Reports
+
+Date:
+2026-09-24
