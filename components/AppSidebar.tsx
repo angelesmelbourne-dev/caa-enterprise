@@ -59,6 +59,7 @@ export default function AppSidebar() {
                 { href: "/vehicles", label: "Vehicles" },
                 { href: "/job-orders", label: "Job Orders" },
                 { href: "/reports", label: "Reports" },
+                { href: "/users", label: "Users" },
             ]
             : role === "TECHNICIAN"
             ? [
