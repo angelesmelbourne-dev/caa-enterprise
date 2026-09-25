@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import { useRouter } from "next/navigation";
+import { canAccessUsers } from "@/lib/authorization";
 
 interface User {
   id: number;
@@ -11,10 +13,31 @@ interface User {
 }
 
 export default function UsersPage() {
+  const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     const loadUsers = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        router.replace("/login");
+        return;
+      }
+
+      const { data: currentUser } = await supabase
+        .from("users")
+        .select("role")
+        .eq("auth_user_id", user.id)
+        .single();
+
+      if (!currentUser || !canAccessUsers(currentUser.role)) {
+        router.replace("/dashboard");
+        return;
+      }
+
       const { data, error } = await supabase
         .from("users")
         .select("id, full_name, email, role")
@@ -26,13 +49,11 @@ export default function UsersPage() {
     };
 
     loadUsers();
-  }, []);
+  }, [router]);
 
   return (
     <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">
-        Users
-      </h1>
+      <h1 className="text-3xl font-bold mb-6">Users</h1>
 
       <div className="bg-zinc-900 rounded-lg overflow-hidden border border-zinc-800">
         <table className="w-full">
@@ -46,10 +67,7 @@ export default function UsersPage() {
 
           <tbody>
             {users.map((user) => (
-              <tr
-                key={user.id}
-                className="border-t border-zinc-800"
-              >
+              <tr key={user.id} className="border-t border-zinc-800">
                 <td className="p-4">{user.full_name}</td>
                 <td className="p-4">{user.email}</td>
                 <td className="p-4">{user.role}</td>

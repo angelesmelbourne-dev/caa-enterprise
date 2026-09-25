@@ -11,6 +11,8 @@ import PaymentBreakdownList from "@/components/reports/PaymentBreakdown";
 import TopItemsTable from "@/components/reports/TopItemsTable";
 import StockAlerts from "@/components/reports/StockAlerts";
 import JobOrderStatus from "@/components/reports/JobOrderStatus";
+import { redirect } from "next/navigation";
+import { canAccessReports } from "@/lib/authorization";
 
 const PERIODS = [7, 30, 90] as const;
 
@@ -27,6 +29,25 @@ export default async function ReportsPage({
 }: {
   searchParams: Promise<{ days?: string }>;
 }) {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+    return;
+  }
+
+  const { data: currentUser } = await supabase
+    .from("users")
+    .select("role")
+    .eq("auth_user_id", user.id)
+    .single();
+
+  if (!currentUser || !canAccessReports(currentUser.role)) {
+    redirect("/dashboard");
+    return;
+  }
   const params = await searchParams;
   const days = PERIODS.includes(Number(params.days) as (typeof PERIODS)[number])
     ? Number(params.days)
