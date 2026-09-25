@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { useEffect, useState } from "react";
+import { ROLES } from "@/lib/roles";
 
 export default function AppSidebar() {
     const pathname = usePathname();
@@ -50,13 +51,27 @@ export default function AppSidebar() {
         router.push("/login");
     };
 
-    const links = [
-        { href: "/dashboard", label: "Dashboard" },
-        { href: "/customers", label: "Customers" },
-        { href: "/vehicles", label: "Vehicles" },
-        { href: "/job-orders", label: "Job Orders" },
-        { href: "/reports", label: "Reports" },
-    ];
+    const links =
+        role === ROLES.OWNER
+            ? [
+                { href: "/dashboard", label: "Dashboard" },
+                { href: "/customers", label: "Customers" },
+                { href: "/vehicles", label: "Vehicles" },
+                { href: "/job-orders", label: "Job Orders" },
+                { href: "/reports", label: "Reports" },
+            ]
+            : role === "TECHNICIAN"
+            ? [
+                { href: "/dashboard", label: "Dashboard" },
+                { href: "/vehicles", label: "Vehicles" },
+                { href: "/job-orders", label: "Job Orders" },
+            ]
+            : [
+                { href: "/dashboard", label: "Dashboard" },
+                { href: "/customers", label: "Customers" },
+                { href: "/vehicles", label: "Vehicles" },
+                { href: "/job-orders", label: "Job Orders" },
+            ];
 
     return (
         <aside className="w-64 min-h-screen bg-zinc-950 border-r border-zinc-800 flex flex-col">
@@ -79,8 +94,8 @@ export default function AppSidebar() {
                             key={link.href}
                             href={link.href}
                             className={`block px-4 py-3 rounded-lg transition ${isActive
-                                    ? "bg-zinc-800 text-white"
-                                    : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
+                                ? "bg-zinc-800 text-white"
+                                : "text-zinc-400 hover:bg-zinc-900 hover:text-white"
                                 }`}
                         >
                             {link.label}
