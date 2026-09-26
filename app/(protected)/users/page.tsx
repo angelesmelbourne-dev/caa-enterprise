@@ -98,6 +98,40 @@ export default function UsersPage() {
 
     setIsModalOpen(false);
   };
+  const handleCreateUser = async () => {
+    const response = await fetch("/api/users/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        fullName: newFullName,
+        email: newEmail,
+        role: newRole,
+      }),
+    });
+
+    const result = await response.json();
+
+    console.log("CREATE USER RESPONSE:", result);
+
+    if (result.success) {
+      setIsAddUserModalOpen(false);
+
+      setNewFullName("");
+      setNewEmail("");
+      setNewRole("TECHNICIAN");
+
+      const { data } = await supabase
+        .from("users")
+        .select("id, full_name, email, role")
+        .order("id");
+
+      if (data) {
+        setUsers(data);
+      }
+    }
+  };
   return (
     <div className="p-6">
       <div className="flex items-center justify-between mb-6">
@@ -247,73 +281,74 @@ export default function UsersPage() {
         </div>
       )}
       {isAddUserModalOpen && (
-  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-    <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 w-full max-w-md">
-      <h2 className="text-xl font-bold mb-6">
-        Add User
-      </h2>
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold mb-6">
+              Add User
+            </h2>
 
-      <div className="space-y-4">
-        <div>
-          <label className="block text-sm text-zinc-400 mb-1">
-            Full Name
-          </label>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">
+                  Full Name
+                </label>
 
-          <input
-            value={newFullName}
-            onChange={(e) => setNewFullName(e.target.value)}
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
-          />
+                <input
+                  value={newFullName}
+                  onChange={(e) => setNewFullName(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">
+                  Email
+                </label>
+
+                <input
+                  value={newEmail}
+                  onChange={(e) => setNewEmail(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">
+                  Role
+                </label>
+
+                <select
+                  value={newRole}
+                  onChange={(e) => setNewRole(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
+                >
+                  {ROLES.map((role) => (
+                    <option key={role} value={role}>
+                      {role}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                onClick={() => setIsAddUserModalOpen(false)}
+                className="px-4 py-2 rounded-lg text-zinc-400 hover:text-white"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleCreateUser}
+                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white"
+              >
+                Create User
+              </button>
+            </div>
+          </div>
         </div>
-
-        <div>
-          <label className="block text-sm text-zinc-400 mb-1">
-            Email
-          </label>
-
-          <input
-            value={newEmail}
-            onChange={(e) => setNewEmail(e.target.value)}
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
-          />
-        </div>
-
-        <div>
-          <label className="block text-sm text-zinc-400 mb-1">
-            Role
-          </label>
-
-          <select
-            value={newRole}
-            onChange={(e) => setNewRole(e.target.value)}
-            className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
-          >
-            {ROLES.map((role) => (
-              <option key={role} value={role}>
-                {role}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-
-      <div className="flex justify-end gap-2 mt-6">
-        <button
-          onClick={() => setIsAddUserModalOpen(false)}
-          className="px-4 py-2 rounded-lg text-zinc-400 hover:text-white"
-        >
-          Cancel
-        </button>
-
-        <button
-          className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white"
-        >
-          Create User
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+      )}
     </div>
   );
 }
