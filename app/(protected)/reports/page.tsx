@@ -11,6 +11,9 @@ import PaymentBreakdownList from "@/components/reports/PaymentBreakdown";
 import TopItemsTable from "@/components/reports/TopItemsTable";
 import StockAlerts from "@/components/reports/StockAlerts";
 import JobOrderStatus from "@/components/reports/JobOrderStatus";
+import { redirect } from "next/navigation";
+import { getCurrentUserServer } from "@/lib/current-user-server";
+import { canAccessReports } from "@/lib/authorization";
 
 
 const PERIODS = [7, 30, 90] as const;
@@ -28,7 +31,15 @@ export default async function ReportsPage({
 }: {
   searchParams: Promise<{ days?: string }>;
 }) {
+  const currentUser = await getCurrentUserServer();
 
+if (!currentUser) {
+  redirect("/login");
+}
+
+if (!canAccessReports(currentUser.role)) {
+  redirect("/dashboard");
+}
 
   const params = await searchParams;
   const days = PERIODS.includes(Number(params.days) as (typeof PERIODS)[number])
