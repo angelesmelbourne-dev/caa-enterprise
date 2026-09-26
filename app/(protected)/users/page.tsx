@@ -16,6 +16,9 @@ interface User {
 export default function UsersPage() {
   const router = useRouter();
   const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editedRole, setEditedRole] = useState("");
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -103,6 +106,11 @@ export default function UsersPage() {
                 </td>
                 <td className="p-4">
                   <button
+                    onClick={() => {
+                      setSelectedUser(user);
+                      setEditedRole(user.role);
+                      setIsModalOpen(true);
+                    }}
                     className="px-3 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm"
                   >
                     Edit
@@ -114,6 +122,73 @@ export default function UsersPage() {
           </tbody>
         </table>
       </div>
+      {isModalOpen && selectedUser && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 w-full max-w-md">
+            <h2 className="text-xl font-bold mb-6">
+              Edit User
+            </h2>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">
+                  Full Name
+                </label>
+
+                <input
+                  value={selectedUser.full_name}
+                  readOnly
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">
+                  Email
+                </label>
+
+                <input
+                  value={selectedUser.email}
+                  readOnly
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm text-zinc-400 mb-1">
+                  Role
+                </label>
+
+                <select
+                  value={editedRole}
+                  onChange={(e) => setEditedRole(e.target.value)}
+                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2"
+                >
+                  <option value="OWNER">OWNER</option>
+                  <option value="MANAGER">MANAGER</option>
+                  <option value="TECHNICIAN">TECHNICIAN</option>
+                  <option value="CASHIER">CASHIER</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-3 mt-6">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
+              >
+                Cancel
+              </button>
+
+              <button
+                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
