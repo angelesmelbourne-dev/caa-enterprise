@@ -21,12 +21,15 @@ export default function UsersPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedRole, setEditedRole] = useState("");
+  const [editedStatus, setEditedStatus] = useState("");
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
 
   const [newFullName, setNewFullName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newRole, setNewRole] = useState("TECHNICIAN");
+
+
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -41,12 +44,25 @@ export default function UsersPage() {
 
       const { data: currentUser } = await supabase
         .from("users")
-        .select("id, role")
+        .select("id, role, status")
         .eq("auth_user_id", user.id)
         .single();
 
       setCurrentUserId(currentUser?.id || null);
+      
+      if (!currentUser) {
+        router.replace("/login");
+        return;
+      }
 
+      if (currentUser.status === "INACTIVE") {
+        await supabase.auth.signOut();
+
+        alert("This account has been deactivated.");
+
+        router.replace("/login");
+        return;
+      }
       if (!currentUser || !canAccessUsers(currentUser.role)) {
         router.replace("/dashboard");
         return;
@@ -76,7 +92,10 @@ export default function UsersPage() {
 
     const { data, error } = await supabase
       .from("users")
-      .update({ role: editedRole })
+      .update({
+        role: editedRole,
+        status: editedStatus,
+      })
       .eq("id", selectedUser.id)
       .select();
 
@@ -142,7 +161,7 @@ export default function UsersPage() {
 
         <button
           onClick={() => setIsAddUserModalOpen(true)}
-          className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium transition"
+          className="..."
         >
           + Add User
         </button>
@@ -186,7 +205,7 @@ export default function UsersPage() {
                     className={`px-2 py-1 rounded-full text-xs font-semibold ${user.status === "ACTIVE"
                       ? "bg-green-500/20 text-green-400"
                       : "bg-red-500/20 text-red-400"
-                    }`}
+                      }`}
                   >
                     {user.status}
                   </span>
@@ -196,6 +215,7 @@ export default function UsersPage() {
                     onClick={() => {
                       setSelectedUser(user);
                       setEditedRole(user.role);
+                      setEditedStatus(user.status);
                       setIsModalOpen(true);
                     }}
                     className="px-3 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-sm"
@@ -273,7 +293,20 @@ export default function UsersPage() {
                 </select>
               </div>
             </div>
+            <div>
+              <label className="block text-sm text-zinc-400 mb-1">
+                Status
+              </label>
 
+              <select
+                value={editedStatus}
+                onChange={(e) => setEditedStatus(e.target.value)}
+                className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
+              >
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="INACTIVE">INACTIVE</option>
+              </select>
+            </div>
             <div className="flex justify-end gap-3 mt-6">
               <button
                 onClick={() => setIsModalOpen(false)}
