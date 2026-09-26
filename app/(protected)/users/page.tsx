@@ -12,6 +12,7 @@ interface User {
   email: string;
   role: string;
 }
+const ROLES = ["OWNER", "MANAGER", "TECHNICIAN", "CASHIER"];
 
 export default function UsersPage() {
   const router = useRouter();
@@ -19,6 +20,12 @@ export default function UsersPage() {
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editedRole, setEditedRole] = useState("");
+  const [currentUserId, setCurrentUserId] = useState<number | null>(null);
+  const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+
+  const [newFullName, setNewFullName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newRole, setNewRole] = useState("TECHNICIAN");
 
   useEffect(() => {
     const loadUsers = async () => {
@@ -33,9 +40,11 @@ export default function UsersPage() {
 
       const { data: currentUser } = await supabase
         .from("users")
-        .select("role")
+        .select("id, role")
         .eq("auth_user_id", user.id)
         .single();
+
+      setCurrentUserId(currentUser?.id || null);
 
       if (!currentUser || !canAccessUsers(currentUser.role)) {
         router.replace("/dashboard");
@@ -58,13 +67,17 @@ export default function UsersPage() {
     loadUsers();
   }, [router]);
   const handleSaveRole = async () => {
+    if (selectedUser?.id === currentUserId) {
+      alert("You cannot change your own role.");
+      return;
+    }
     if (!selectedUser) return;
 
     const { data, error } = await supabase
-  .from("users")
-  .update({ role: editedRole })
-  .eq("id", selectedUser.id)
-  .select();
+      .from("users")
+      .update({ role: editedRole })
+      .eq("id", selectedUser.id)
+      .select();
 
     console.log("UPDATE DATA:", data);
     console.log("UPDATE ERROR:", error);
@@ -93,6 +106,7 @@ export default function UsersPage() {
         </h1>
 
         <button
+          onClick={() => setIsAddUserModalOpen(true)}
           className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-medium transition"
         >
           + Add User
@@ -185,7 +199,22 @@ export default function UsersPage() {
                 <label className="block text-sm text-zinc-400 mb-1">
                   Role
                 </label>
-
+                <select
+                  disabled={selectedUser.id === currentUserId}
+                  value={editedRole}
+                  onChange={(e) => setEditedRole(e.target.value)}
+                  className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2 mb-6 disabled:opacity-50"
+                >
+                  <option value="OWNER">OWNER</option>
+                  <option value="MANAGER">MANAGER</option>
+                  <option value="TECHNICIAN">TECHNICIAN</option>
+                  <option value="CASHIER">CASHIER</option>
+                </select>
+                {selectedUser.id === currentUserId && (
+                  <p className="text-xs text-zinc-500 mt-1">
+                    You can&apos;t change your own role.
+                  </p>
+                )}
                 <select
                   value={editedRole}
                   onChange={(e) => setEditedRole(e.target.value)}
@@ -217,6 +246,74 @@ export default function UsersPage() {
           </div>
         </div>
       )}
+      {isAddUserModalOpen && (
+  <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+    <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 w-full max-w-md">
+      <h2 className="text-xl font-bold mb-6">
+        Add User
+      </h2>
+
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm text-zinc-400 mb-1">
+            Full Name
+          </label>
+
+          <input
+            value={newFullName}
+            onChange={(e) => setNewFullName(e.target.value)}
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm text-zinc-400 mb-1">
+            Email
+          </label>
+
+          <input
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm text-zinc-400 mb-1">
+            Role
+          </label>
+
+          <select
+            value={newRole}
+            onChange={(e) => setNewRole(e.target.value)}
+            className="w-full rounded-lg border border-zinc-700 bg-zinc-950 px-3 py-2"
+          >
+            {ROLES.map((role) => (
+              <option key={role} value={role}>
+                {role}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <div className="flex justify-end gap-2 mt-6">
+        <button
+          onClick={() => setIsAddUserModalOpen(false)}
+          className="px-4 py-2 rounded-lg text-zinc-400 hover:text-white"
+        >
+          Cancel
+        </button>
+
+        <button
+          className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white"
+        >
+          Create User
+        </button>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
