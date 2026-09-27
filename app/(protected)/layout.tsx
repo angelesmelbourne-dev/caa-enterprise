@@ -18,11 +18,25 @@ export default function ProtectedLayout({
       const {
         data: { session },
       } = await supabase.auth.getSession();
-
-      if (!session) {
+      
+       if (!session) {
         router.replace("/login");
         return;
       }
+      const { data: profile } = await supabase
+        .from("users")
+        .select("status")
+        .eq("auth_user_id", session.user.id)
+        .single();
+
+      if (profile?.status === "INACTIVE") {
+        await supabase.auth.signOut();
+
+        router.replace("/login");
+
+        return;
+      }
+     
 
       setLoading(false);
     };

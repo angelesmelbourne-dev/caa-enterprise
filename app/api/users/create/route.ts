@@ -6,7 +6,9 @@ export async function POST(request: Request) {
 
     const { fullName, email, role } = body;
 
-    const tempPassword = "Password123!";
+    const tempPassword =
+  Math.random().toString(36).slice(-8) +
+  "!";
 
     const { data, error } =
         await supabaseAdmin.auth.admin.createUser({
@@ -55,6 +57,6 @@ export async function POST(request: Request) {
         authUserId: data.user.id,
         email,
         role,
-        fullName,
+        fullName, tempPassword,
     });
 }

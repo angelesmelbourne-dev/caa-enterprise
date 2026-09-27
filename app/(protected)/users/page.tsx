@@ -28,6 +28,11 @@ export default function UsersPage() {
   const [newFullName, setNewFullName] = useState("");
   const [newEmail, setNewEmail] = useState("");
   const [newRole, setNewRole] = useState("TECHNICIAN");
+  const [createdUser, setCreatedUser] = useState<{
+    email: string;
+    password: string;
+    role: string;
+  } | null>(null);
 
 
 
@@ -44,25 +49,13 @@ export default function UsersPage() {
 
       const { data: currentUser } = await supabase
         .from("users")
-        .select("id, role, status")
+        .select("id, role")
         .eq("auth_user_id", user.id)
         .single();
 
       setCurrentUserId(currentUser?.id || null);
-      
-      if (!currentUser) {
-        router.replace("/login");
-        return;
-      }
 
-      if (currentUser.status === "INACTIVE") {
-        await supabase.auth.signOut();
 
-        alert("This account has been deactivated.");
-
-        router.replace("/login");
-        return;
-      }
       if (!currentUser || !canAccessUsers(currentUser.role)) {
         router.replace("/dashboard");
         return;
@@ -109,15 +102,20 @@ export default function UsersPage() {
     }
 
     setUsers((prev) =>
-      prev.map((u) =>
-        u.id === selectedUser.id
-          ? { ...u, role: editedRole }
-          : u
-      )
-    );
+  prev.map((u) =>
+    u.id === selectedUser.id
+      ? {
+          ...u,
+          role: editedRole,
+          status: editedStatus,
+        }
+      : u
+  )
+);
 
     setIsModalOpen(false);
   };
+
   const handleCreateUser = async () => {
     const response = await fetch("/api/users/create", {
       method: "POST",
@@ -136,6 +134,12 @@ export default function UsersPage() {
     console.log("CREATE USER RESPONSE:", result);
 
     if (result.success) {
+      setCreatedUser({
+        email: result.email,
+        password: result.tempPassword,
+        role: result.role,
+      });
+
       setIsAddUserModalOpen(false);
 
       setNewFullName("");
@@ -281,16 +285,6 @@ export default function UsersPage() {
                     You can&apos;t change your own role.
                   </p>
                 )}
-                <select
-                  value={editedRole}
-                  onChange={(e) => setEditedRole(e.target.value)}
-                  className="w-full bg-zinc-800 border border-zinc-700 rounded-lg px-3 py-2"
-                >
-                  <option value="OWNER">OWNER</option>
-                  <option value="MANAGER">MANAGER</option>
-                  <option value="TECHNICIAN">TECHNICIAN</option>
-                  <option value="CASHIER">CASHIER</option>
-                </select>
               </div>
             </div>
             <div>
@@ -389,6 +383,58 @@ export default function UsersPage() {
                 className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white"
               >
                 Create User
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {createdUser && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-lg p-6 w-full max-w-md">
+
+            <h2 className="text-xl font-bold mb-4">
+              User Created Successfully
+            </h2>
+
+            <div className="space-y-3">
+              <div>
+                <p className="text-sm text-zinc-400">Email</p>
+                <p>{createdUser.email}</p>
+              </div>
+
+              <div>
+                <p className="text-sm text-zinc-400">
+                  Temporary Password
+                </p>
+
+                <p className="font-mono">
+                  {createdUser.password}
+                </p>
+              </div>
+
+              <div>
+                <p className="text-sm text-zinc-400">Role</p>
+                <p>{createdUser.role}</p>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-2 mt-6">
+              <button
+                onClick={() =>
+                  navigator.clipboard.writeText(
+                    createdUser.password
+                  )
+                }
+                className="px-4 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700"
+              >
+                Copy Password
+              </button>
+
+              <button
+                onClick={() => setCreatedUser(null)}
+                className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500"
+              >
+                Close
               </button>
             </div>
           </div>
