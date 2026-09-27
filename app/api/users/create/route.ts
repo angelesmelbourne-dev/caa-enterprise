@@ -6,9 +6,22 @@ export async function POST(request: Request) {
 
     const { fullName, email, role } = body;
 
-    const tempPassword =
-  Math.random().toString(36).slice(-8) +
-  "!";
+    function generatePassword(length = 12) {
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+
+  let password = "";
+
+  for (let i = 0; i < length; i++) {
+    password += chars.charAt(
+      Math.floor(Math.random() * chars.length)
+    );
+  }
+
+  return password;
+}
+
+const tempPassword = generatePassword();
 
     const { data, error } =
         await supabaseAdmin.auth.admin.createUser({
