@@ -18,14 +18,14 @@ export default function ProtectedLayout({
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      
-       if (!session) {
+
+      if (!session) {
         router.replace("/login");
         return;
       }
       const { data: profile } = await supabase
         .from("users")
-        .select("status")
+        .select("status, require_password_change")
         .eq("auth_user_id", session.user.id)
         .single();
 
@@ -36,7 +36,11 @@ export default function ProtectedLayout({
 
         return;
       }
-     
+      if (profile?.require_password_change) {
+        router.replace("/change-password");
+        return;
+      }
+
 
       setLoading(false);
     };

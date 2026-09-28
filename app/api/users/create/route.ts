@@ -7,21 +7,21 @@ export async function POST(request: Request) {
     const { fullName, email, role } = body;
 
     function generatePassword(length = 12) {
-  const chars =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
+        const chars =
+            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*";
 
-  let password = "";
+        let password = "";
 
-  for (let i = 0; i < length; i++) {
-    password += chars.charAt(
-      Math.floor(Math.random() * chars.length)
-    );
-  }
+        for (let i = 0; i < length; i++) {
+            password += chars.charAt(
+                Math.floor(Math.random() * chars.length)
+            );
+        }
 
-  return password;
-}
+        return password;
+    }
 
-const tempPassword = generatePassword();
+    const tempPassword = generatePassword();
 
     const { data, error } =
         await supabaseAdmin.auth.admin.createUser({
@@ -50,7 +50,8 @@ const tempPassword = generatePassword();
             email,
             role,
             auth_user_id: data.user.id,
-        });
+            require_password_change: true,
+        })
 
     if (insertError) {
         console.error(insertError);
