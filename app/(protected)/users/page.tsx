@@ -24,6 +24,8 @@ export default function UsersPage() {
   const [editedStatus, setEditedStatus] = useState("");
   const [currentUserId, setCurrentUserId] = useState<number | null>(null);
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+  const [currentUserName, setCurrentUserName] = useState("");
+
 
   const [newFullName, setNewFullName] = useState("");
   const [newEmail, setNewEmail] = useState("");
@@ -49,10 +51,10 @@ export default function UsersPage() {
 
       const { data: currentUser } = await supabase
         .from("users")
-        .select("id, role")
+        .select("id, role, full_name")
         .eq("auth_user_id", user.id)
         .single();
-
+setCurrentUserName(currentUser?.full_name || "");
       setCurrentUserId(currentUser?.id || null);
 
 
@@ -82,6 +84,23 @@ export default function UsersPage() {
       return;
     }
     if (!selectedUser) return;
+    const originalStatus = selectedUser.status;
+    if (originalStatus !== editedStatus) {
+      const { error: auditError } = await supabase
+        .from("audit_logs")
+        .insert({
+          action:
+            editedStatus === "ACTIVE"
+              ? "USER_ACTIVATED"
+              : "USER_DEACTIVATED",
+
+          details: `${selectedUser.full_name}`,
+          performed_by_name: currentUserName,
+        });
+
+      console.log("STATUS AUDIT ERROR:", auditError);
+    }
+    const originalRole = selectedUser.role;
 
     const { data, error } = await supabase
       .from("users")
@@ -100,18 +119,27 @@ export default function UsersPage() {
       console.error(error);
       return;
     }
+    if (originalRole !== editedRole) {
+      const { error: auditError } = await supabase
+        .from("audit_logs")
+        .insert({
+          action: "ROLE_UPDATED",
+          details: `${selectedUser.full_name}: ${originalRole} -> ${editedRole}`,
+        });
 
+      console.log("ROLE AUDIT ERROR:", auditError);
+    }
     setUsers((prev) =>
-  prev.map((u) =>
-    u.id === selectedUser.id
-      ? {
-          ...u,
-          role: editedRole,
-          status: editedStatus,
-        }
-      : u
-  )
-);
+      prev.map((u) =>
+        u.id === selectedUser.id
+          ? {
+            ...u,
+            role: editedRole,
+            status: editedStatus,
+          }
+          : u
+      )
+    );
 
     setIsModalOpen(false);
   };

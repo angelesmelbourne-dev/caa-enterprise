@@ -5,7 +5,11 @@ export async function getCurrentUserServer() {
 
   const {
     data: { user },
+    error,
   } = await supabase.auth.getUser();
+
+  console.log("SERVER USER:", user);
+  console.log("SERVER ERROR:", error);
 
   if (!user) return null;
 

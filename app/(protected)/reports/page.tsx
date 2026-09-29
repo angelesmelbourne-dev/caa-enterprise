@@ -33,14 +33,6 @@ export default async function ReportsPage({
 }) {
   const currentUser = await getCurrentUserServer();
 
-if (!currentUser) {
-  redirect("/login");
-}
-
-if (!canAccessReports(currentUser.role)) {
-  redirect("/dashboard");
-}
-
   const params = await searchParams;
   const days = PERIODS.includes(Number(params.days) as (typeof PERIODS)[number])
     ? Number(params.days)

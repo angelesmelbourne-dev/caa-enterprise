@@ -52,6 +52,17 @@ export async function POST(request: Request) {
             auth_user_id: data.user.id,
             require_password_change: true,
         })
+    const { error: auditError } = await supabaseAdmin
+        .from("audit_logs")
+        .insert({
+            action: "USER_CREATED",
+            details: `${fullName} (${email})`,
+        });
+
+    console.log("AUDIT ERROR:", auditError);
+    console.log("AUDIT ERROR:", auditError);
+    console.log("AUDIT INSERT SUCCESS:", !auditError);
+
 
     if (insertError) {
         console.error(insertError);

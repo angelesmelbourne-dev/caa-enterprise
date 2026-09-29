@@ -60,19 +60,20 @@ export default function AppSidebar() {
                 { href: "/job-orders", label: "Job Orders" },
                 { href: "/reports", label: "Reports" },
                 { href: "/users", label: "Users" },
+                { href: "/audit-logs", label: "Audit Logs" }
             ]
             : role === "TECHNICIAN"
-            ? [
-                { href: "/dashboard", label: "Dashboard" },
-                { href: "/vehicles", label: "Vehicles" },
-                { href: "/job-orders", label: "Job Orders" },
-            ]
-            : [
-                { href: "/dashboard", label: "Dashboard" },
-                { href: "/customers", label: "Customers" },
-                { href: "/vehicles", label: "Vehicles" },
-                { href: "/job-orders", label: "Job Orders" },
-            ];
+                ? [
+                    { href: "/dashboard", label: "Dashboard" },
+                    { href: "/vehicles", label: "Vehicles" },
+                    { href: "/job-orders", label: "Job Orders" },
+                ]
+                : [
+                    { href: "/dashboard", label: "Dashboard" },
+                    { href: "/customers", label: "Customers" },
+                    { href: "/vehicles", label: "Vehicles" },
+                    { href: "/job-orders", label: "Job Orders" },
+                ];
 
     return (
         <aside className="w-64 min-h-screen bg-zinc-950 border-r border-zinc-800 flex flex-col">
