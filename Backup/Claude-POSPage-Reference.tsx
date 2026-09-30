@@ -531,16 +531,15 @@ export default function POSPage() {
                         Change: ₱{change.toFixed(2)}
                       </p>
                     )}
-                  </div>
-                )}
-
-                <button
+                    <button
                   onClick={handleCheckout}
                   disabled={cart.length === 0}
                   className="w-full py-3 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all mt-2"
                 >
                   Complete Sale & Print
                 </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

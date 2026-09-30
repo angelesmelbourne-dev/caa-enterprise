@@ -12,6 +12,9 @@ export type RevenueSummary = {
   saleCount: number;
   avgTicket: number;
   dailySeries: { date: string; total: number }[];
+  previousRevenue: number;
+  /** null when there's no previous-period revenue to compare against */
+  deltaPct: number | null;
 };
 
 export type PaymentBreakdown = { method: string; total: number; count: number };
@@ -42,20 +45,39 @@ export async function getRevenueSummary(
   days = 30
 ): Promise<RevenueSummary> {
   const since = new Date(Date.now() - days * DAY_MS).toISOString();
+  const previousSince = new Date(Date.now() - days * 2 * DAY_MS).toISOString();
 
-  const { data, error } = await supabase
-    .from("sales")
-    .select("total_amount, created_at")
-    .eq("tenant_id", tenantId)
-    .gte("created_at", since)
-    .order("created_at", { ascending: true });
+  const [{ data, error }, { data: prevData, error: prevError }] = await Promise.all([
+    supabase
+      .from("sales")
+      .select("total_amount, created_at")
+      .eq("tenant_id", tenantId)
+      .gte("created_at", since)
+      .order("created_at", { ascending: true }),
+    supabase
+      .from("sales")
+      .select("total_amount")
+      .eq("tenant_id", tenantId)
+      .gte("created_at", previousSince)
+      .lt("created_at", since),
+  ]);
 
   if (error) throw error;
+  if (prevError) throw prevError;
 
   const rows = data ?? [];
   const totalRevenue = rows.reduce((sum, r) => sum + Number(r.total_amount), 0);
   const saleCount = rows.length;
   const avgTicket = saleCount ? totalRevenue / saleCount : 0;
+
+  const previousRevenue = (prevData ?? []).reduce(
+    (sum, r) => sum + Number(r.total_amount),
+    0
+  );
+  const deltaPct =
+    previousRevenue > 0
+      ? ((totalRevenue - previousRevenue) / previousRevenue) * 100
+      : null;
 
   // Bucket into calendar days so the chart has one point per day, even
   // days with zero sales.
@@ -72,7 +94,7 @@ export async function getRevenueSummary(
   }
   const dailySeries = Array.from(buckets, ([date, total]) => ({ date, total }));
 
-  return { totalRevenue, saleCount, avgTicket, dailySeries };
+  return { totalRevenue, saleCount, avgTicket, dailySeries, previousRevenue, deltaPct };
 }
 
 /** Revenue grouped by payment method. */
@@ -142,7 +164,6 @@ export async function getTopItems(
 
 /** Products/inventory at or below their reorder threshold. */
 export async function getStockAlerts(tenantId: string): Promise<StockAlert[]> {
-
   const [{ data: products, error: pErr }, { data: inventory, error: iErr }] =
     await Promise.all([
       supabase
@@ -194,7 +215,6 @@ export async function getStockAlerts(tenantId: string): Promise<StockAlert[]> {
 export async function getJobOrderStatusCounts(
   tenantId: string
 ): Promise<JobOrderStatusCount[]> {
-
   const { data, error } = await supabase
     .from("job_orders")
     .select("status, customers!inner(tenant_id)")
