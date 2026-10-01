@@ -10,7 +10,7 @@ export default function StorePage() {
             <section className="relative min-h-screen bg-black text-white overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 via-black to-black" />
 
-                <div className="relative z-10 mx-auto max-w-7xl px-6 py-16">
+                <div className="relative z-10 mx-auto max-w-7xl px-6 pb-16 pt-32 md:pt-36">
                     <div className="grid items-center gap-12 lg:grid-cols-2">
                         {/* LEFT */}
                         <div>
@@ -18,7 +18,7 @@ export default function StorePage() {
                                 Premium Retail Technology Solutions
                             </div>
 
-                            <h1 className="text-5xl font-extrabold leading-tight lg:text-7xl">
+                            <h1 className="text-4xl font-bold leading-[1.05] tracking-[-0.04em] sm:text-5xl lg:text-6xl">
                                 Modern POS
                                 <span className="block text-teal-500">Solutions</span>
                                 For Growing Businesses
@@ -91,9 +91,6 @@ export default function StorePage() {
     hover:shadow-xl
   "
                     >
-                        <div className="aspect-video bg-zinc-100 flex items-center justify-center text-zinc-500">
-                            POS Demo Video
-                        </div>
 
                         <div className="grid gap-10 p-10 lg:grid-cols-2">
                             <div>
@@ -116,7 +113,7 @@ export default function StorePage() {
     transition-all
     duration-300
     hover:-translate-y-1
-    hover:bg-zinc-800
+    hover:bg-teal-800
     hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]
   "
                                     >
@@ -127,20 +124,20 @@ export default function StorePage() {
                             </div>
 
                             <div className="space-y-4">
-                                <div className="rounded-xl border border-zinc-800 p-4">
-                                    ✅ POS Software
+                                <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
+                                     POS Software
                                 </div>
-                                <div className="rounded-xl border border-zinc-800 p-4">
-                                    ✅ Receipt Printer Ready
+                                <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
+                                     Receipt Printer Ready
                                 </div>
-                                <div className="rounded-xl border border-zinc-800 p-4">
-                                    ✅ Barcode Scanner Ready
+                                <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
+                                     Barcode Scanner Ready
                                 </div>
-                                <div className="rounded-xl border border-zinc-800 p-4">
-                                    ✅ Inventory Tracking
+                                <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
+                                     Inventory Tracking
                                 </div>
-                                <div className="rounded-xl border border-zinc-800 p-4">
-                                    ✅ Setup Assistance
+                                <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
+                                     Setup Assistance
                                 </div>
                             </div>
                         </div>
@@ -166,7 +163,7 @@ export default function StorePage() {
                         </h2>
                     </div>
 
-                    <div className="grid gap-8">
+                    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
                         <div
                             className="
     overflow-hidden
@@ -181,9 +178,16 @@ export default function StorePage() {
     hover:shadow-xl
   "
                         >
-                            <div className="aspect-video bg-zinc-100 flex items-center justify-center text-zinc-500">
-                                Video
-                            </div>
+<video
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="metadata"
+  className="h-60 w-full object-cover"
+>
+  <source src="/videos/receipt-printer.mp4" type="video/mp4" />
+</video>
                             <div className="p-8">
                                 <h2 className="text-3xl font-black tracking-tight">Receipt Printer</h2>
                                 <p className="mt-3 text-zinc-600">
@@ -206,9 +210,16 @@ export default function StorePage() {
     hover:shadow-xl
   "
                         >
-                            <div className="aspect-video bg-zinc-100 flex items-center justify-center text-zinc-500">
-                                Video
-                            </div>
+                            <video
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="metadata"
+  className="h-60 w-full object-cover"
+>
+  <source src="/videos/barcode-scanner.mp4" type="video/mp4" />
+</video>
                             <div className="p-8">
                                 <h2 className="text-3xl font-black tracking-tight">Barcode Scanner</h2>
                                 <p className="mt-3 text-zinc-600">
@@ -231,9 +242,16 @@ export default function StorePage() {
     hover:shadow-xl
   "
                         >
-                            <div className="aspect-video bg-zinc-100 flex items-center justify-center text-zinc-500">
-                                Video
-                            </div>
+                            <video
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="metadata"
+  className="h-60 w-full object-cover"
+>
+  <source src="/videos/cash-drawer.mp4" type="video/mp4" />
+</video>
                             <div className="p-8">
                                 <h2 className="text-3xl font-black tracking-tight">Cash Drawer</h2>
                                 <p className="mt-3 text-zinc-600">
@@ -256,9 +274,16 @@ export default function StorePage() {
     hover:shadow-xl
   "
                         >
-                            <div className="aspect-video bg-zinc-100 flex items-center justify-center text-zinc-500">
-                                Video
-                            </div>
+                            <video
+  autoPlay
+  muted
+  loop
+  playsInline
+  preload="metadata"
+  className="h-60 w-full object-cover"
+>
+  <source src="/videos/pos-demo.mp4" type="video/mp4" />
+</video>
                             <div className="p-8">
                                 <h2 className="text-3xl font-black tracking-tight">Customer Display</h2>
                                 <p className="mt-3 text-zinc-600">
@@ -336,7 +361,7 @@ export default function StorePage() {
             >
 
                 <div className="mx-auto max-w-7xl px-6 py-10">
-                    <div className="grid grid-cols-2 gap-6 text-center md:grid-cols-4">
+                    <div className="mx-auto max-w-5xl grid gap-6 md:grid-cols-2">
                         <div>
                             <h3 className="text-lg font-semibold">POS Hardware</h3>
                             <p className="text-sm text-zinc-500">Complete retail systems</p>
