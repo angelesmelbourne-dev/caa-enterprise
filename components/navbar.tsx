@@ -64,15 +64,15 @@ export default function Navbar() {
 
   return (
     <div className="fixed left-0 right-0 top-4 z-50 flex justify-center px-4">
-      <nav className="w-full max-w-7xl rounded-full border border-white/30 bg-white/60 backdrop-blur-2xl px-6 py-3 shadow-xl">
+      <nav className="mx-auto w-full max-w-7xl rounded-2xl border border-green-900/10 bg-[#fbfcf8]/95 px-6 py-3 text-[#17251d] shadow-sm backdrop-blur">
         <div className="flex items-center justify-between gap-6">
-          <div className="flex h-16 shrink-0 items-center">
+          <div className="flex h-12 shrink-0 items-center">
             <Image
               src="/logo.png"
               alt="CA&A Enterprise"
               width={600}
               height={250}
-              className="block h-14 w-auto object-contain"
+              className="block h-12 w-auto object-contain"
             />
           </div>
 
@@ -96,12 +96,14 @@ export default function Navbar() {
             </a>
           </div>
 
-          <button
-            type="button"
-            className="rounded-full bg-black px-6 py-3 text-white transition-colors hover:bg-teal-500"
+          <a
+            href="https://m.me/YOURFACEBOOKPAGE"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rounded-xl bg-[var(--brand-forest)] px-6 py-3 font-semibold text-white transition-colors hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40"
           >
             Request Quote
-          </button>
+          </a>
         </div>
       </nav>
     </div>

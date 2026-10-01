@@ -3,8 +3,20 @@
 /* Root Colors */
 
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
+  --background: #f8faf7;
+  --surface: #ffffff;
+  --surface-muted: #eef4ed;
+
+  --foreground: #17251d;
+  --text-muted: #5b6d60;
+
+  --border: #d9e4d8;
+
+  --brand-forest: #147A38;
+  --brand-forest-hover: #105f2f;
+
+  --brand-lime: #A7C92A;
+  --brand-lime-soft: #f4f8df;
 }
 
 /* Base */

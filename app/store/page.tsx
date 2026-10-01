@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Navbar from "@/components/navbar";
 
 export default function StorePage() {
@@ -14,7 +15,7 @@ export default function StorePage() {
                     <div className="grid items-center gap-12 lg:grid-cols-2">
                         {/* LEFT */}
                         <div>
-                            <div className="mb-6 inline-flex rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400">
+                            <div className="mb-6 inline-flex rounded-full border bg-[var(--brand-forest)]/30 bg-[var(--brand-forest)]/10 px-4 py-2 text-sm bg-[var(--brand-forest)]">
                                 Premium Retail Technology Solutions
                             </div>
 
@@ -30,12 +31,17 @@ export default function StorePage() {
                             </p>
 
                             <div className="mt-10 flex gap-4">
-                                <button className="rounded-xl bg-black-600 border border-zinc-700 px-8 py-4 font-semibold hover:bg-teal-500">
+                                <button  className="inline-flex items-center justify-center rounded-xl bg-[var(--brand-forest)] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40">
                                     Browse Products
                                 </button>
-                                <button className="rounded-xl border border-zinc-700 px-8 py-4 font-semibold hover:bg-teal-500">
+                                <Link
+                                    href="https://m.me/YOUR_FACEBOOK_PAGE"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center justify-center rounded-xl bg-[var(--brand-forest)] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40"
+                                >
                                     Request Quote
-                                </button>
+                                </Link>
                             </div>
                         </div>
 
@@ -102,42 +108,32 @@ export default function StorePage() {
                                     receipt printing, barcode scanning and inventory tracking.
                                 </p>
                                 <div className="mt-8">
-                                    <button
-                                        className="
-    rounded-xl
-    bg-black
-    px-8
-    py-4
-    font-semibold
-    text-white
-    transition-all
-    duration-300
-    hover:-translate-y-1
-    hover:bg-teal-800
-    hover:shadow-[0_20px_40px_rgba(0,0,0,0.25)]
-  "
+                                    <Link
+                                        href="https://m.me/YOUR_FACEBOOK_PAGE"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center justify-center rounded-xl bg-[var(--brand-forest)] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40"
                                     >
                                         Request Quote
-                                    </button>
-
+                                    </Link>
                                 </div>
                             </div>
 
                             <div className="space-y-4">
                                 <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
-                                     POS Software
+                                    POS Software
                                 </div>
                                 <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
-                                     Receipt Printer Ready
+                                    Receipt Printer Ready
                                 </div>
                                 <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
-                                     Barcode Scanner Ready
+                                    Barcode Scanner Ready
                                 </div>
                                 <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
-                                     Inventory Tracking
+                                    Inventory Tracking
                                 </div>
                                 <div className="rounded-xl border border-zinc-800 p-4 text-zinc-500">
-                                     Setup Assistance
+                                    Setup Assistance
                                 </div>
                             </div>
                         </div>
@@ -178,16 +174,16 @@ export default function StorePage() {
     hover:shadow-xl
   "
                         >
-<video
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="metadata"
-  className="h-60 w-full object-cover"
->
-  <source src="/videos/receipt-printer.mp4" type="video/mp4" />
-</video>
+                            <video
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                className="h-60 w-full object-cover"
+                            >
+                                <source src="/videos/receipt-printer.mp4" type="video/mp4" />
+                            </video>
                             <div className="p-8">
                                 <h2 className="text-3xl font-black tracking-tight">Receipt Printer</h2>
                                 <p className="mt-3 text-zinc-600">
@@ -211,15 +207,15 @@ export default function StorePage() {
   "
                         >
                             <video
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="metadata"
-  className="h-60 w-full object-cover"
->
-  <source src="/videos/barcode-scanner.mp4" type="video/mp4" />
-</video>
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                className="h-60 w-full object-cover"
+                            >
+                                <source src="/videos/barcode-scanner.mp4" type="video/mp4" />
+                            </video>
                             <div className="p-8">
                                 <h2 className="text-3xl font-black tracking-tight">Barcode Scanner</h2>
                                 <p className="mt-3 text-zinc-600">
@@ -243,15 +239,15 @@ export default function StorePage() {
   "
                         >
                             <video
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="metadata"
-  className="h-60 w-full object-cover"
->
-  <source src="/videos/cash-drawer.mp4" type="video/mp4" />
-</video>
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                className="h-60 w-full object-cover"
+                            >
+                                <source src="/videos/cash-drawer.mp4" type="video/mp4" />
+                            </video>
                             <div className="p-8">
                                 <h2 className="text-3xl font-black tracking-tight">Cash Drawer</h2>
                                 <p className="mt-3 text-zinc-600">
@@ -275,15 +271,15 @@ export default function StorePage() {
   "
                         >
                             <video
-  autoPlay
-  muted
-  loop
-  playsInline
-  preload="metadata"
-  className="h-60 w-full object-cover"
->
-  <source src="/videos/pos-demo.mp4" type="video/mp4" />
-</video>
+                                autoPlay
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                className="h-60 w-full object-cover"
+                            >
+                                <source src="/videos/pos-demo.mp4" type="video/mp4" />
+                            </video>
                             <div className="p-8">
                                 <h2 className="text-3xl font-black tracking-tight">Customer Display</h2>
                                 <p className="mt-3 text-zinc-600">
@@ -355,32 +351,7 @@ export default function StorePage() {
             </section>
 
             {/*SECTION 05 - PRODUCT DEMOS*/}
-            <section
-                id="videos"
-                className="bg-white py-24 text-black"
-            >
 
-                <div className="mx-auto max-w-7xl px-6 py-10">
-                    <div className="mx-auto max-w-5xl grid gap-6 md:grid-cols-2">
-                        <div>
-                            <h3 className="text-lg font-semibold">POS Hardware</h3>
-                            <p className="text-sm text-zinc-500">Complete retail systems</p>
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-semibold">Receipt Printers</h3>
-                            <p className="text-sm text-zinc-500">Fast &amp; reliable printing</p>
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-semibold">Barcode Scanners</h3>
-                            <p className="text-sm text-zinc-500">Accurate inventory tracking</p>
-                        </div>
-                        <div>
-                            <h3 className="text-lg font-semibold">Customer Displays</h3>
-                            <p className="text-sm text-zinc-500">Better customer experience</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
             {/* =========================================
    SECTION 06 - TRUST METRICS
 ========================================= */}
@@ -564,9 +535,16 @@ export default function StorePage() {
 
                     <div className="mt-12 flex flex-wrap justify-center gap-4">
 
-                        <button className="rounded-xl bg-red-600 px-8 py-4 font-semibold text-white hover:bg-red-500 transition">
-                            Request A Quote
-                        </button>
+
+                        <Link
+                            href="https://m.me/YOUR_FACEBOOK_PAGE"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center justify-center rounded-xl bg-[var(--brand-forest)] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40"
+                        >
+                            Request Quote
+                        </Link>
+
 
                         <button className="rounded-xl border border-zinc-700 px-8 py-4 font-semibold text-white hover:border-zinc-500 transition">
                             Browse Products
@@ -576,9 +554,7 @@ export default function StorePage() {
 
                 </div>
             </section>
-            {/* =========================================
-   SECTION 09 - FOOTER
-========================================= */}
+
             {/* =========================================
    SECTION 09 - FOOTER
 ========================================= */}
