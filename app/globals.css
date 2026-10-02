@@ -225,14 +225,23 @@ html.reveal-enabled [data-reveal].is-visible {
 .navbar-orbit-cta {
   min-height: 42px;
   border-radius: 12px;
-  padding: 10px 12px;
-  font-size: 12px;
+  flex-shrink: 0;
+  gap: 6px;
+  padding: 8px 10px;
+  font-size: 11px;
+  white-space: nowrap;
 }
 
 @media (min-width: 640px) {
   .navbar-orbit-cta {
     padding: 12px 24px;
     font-size: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .mobile-navigation-quote-top {
+    display: none;
   }
 }
 .mobile-nav-drawer {
