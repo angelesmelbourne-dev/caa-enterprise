@@ -126,7 +126,7 @@ export default function Navbar() {
                 href="https://m.me/YOURFACEBOOKPAGE"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-xl bg-[var(--brand-forest)] px-3 py-2.5 text-xs font-semibold text-white transition-colors hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40 sm:px-6 sm:py-3 sm:text-sm"
+                className="orbit-cta navbar-orbit-cta"
               >
                 Request Quote
               </a>

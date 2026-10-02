@@ -222,7 +222,19 @@ html.reveal-enabled [data-reveal].is-visible {
   from { opacity: 0; }
   to { opacity: 1; }
 }
+.navbar-orbit-cta {
+  min-height: 42px;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 12px;
+}
 
+@media (min-width: 640px) {
+  .navbar-orbit-cta {
+    padding: 12px 24px;
+    font-size: 14px;
+  }
+}
 .mobile-nav-drawer {
   animation: mobile-nav-slide-in 240ms cubic-bezier(.2, .75, .25, 1) both;
 }
