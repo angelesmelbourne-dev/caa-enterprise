@@ -1,10 +1,13 @@
 import Link from "next/link";
+import ScrollRevealInit from "@/components/scroll-reveal-init";
 import Navbar from "@/components/navbar";
+
 
 export default function StorePage() {
     return (
         <>
             <Navbar />
+            <ScrollRevealInit />
             {/* =========================================
    SECTION 01 - HERO
 ========================================= */}
@@ -31,14 +34,14 @@ export default function StorePage() {
                             </p>
 
                             <div className="mt-10 flex gap-4">
-                                <button  className="inline-flex items-center justify-center rounded-xl bg-[var(--brand-forest)] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40">
+                                <button  className="orbit-cta">
                                     Browse Products
                                 </button>
                                 <Link
                                     href="https://m.me/YOUR_FACEBOOK_PAGE"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center justify-center rounded-xl bg-[var(--brand-forest)] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40"
+                                    className="orbit-cta"
                                 >
                                     Request Quote
                                 </Link>
@@ -112,7 +115,7 @@ export default function StorePage() {
                                         href="https://m.me/YOUR_FACEBOOK_PAGE"
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center justify-center rounded-xl bg-[var(--brand-forest)] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40"
+                                        className="orbit-cta"
                                     >
                                         Request Quote
                                     </Link>
@@ -146,6 +149,7 @@ export default function StorePage() {
 ========================================= */}
             <section
                 id="solutions"
+
                 className="bg-white py-16 text-black"
             >
                 <div className="mx-auto max-w-7xl px-6">
@@ -356,7 +360,7 @@ export default function StorePage() {
    SECTION 06 - TRUST METRICS
 ========================================= */}
 
-            <section className="bg-black py-24 text-white">
+            <section data-reveal className="bg-black py-24 text-white">
                 <div className="mx-auto max-w-7xl px-6">
 
                     <div className="mb-16 text-center">
@@ -513,7 +517,7 @@ export default function StorePage() {
    SECTION 08 - FINAL CTA
 ========================================= */}
 
-            <section className="bg-black py-32 text-white overflow-hidden">
+            <section data-reveal className="bg-black py-32 text-white overflow-hidden">
                 <div className="mx-auto max-w-5xl px-6 text-center">
 
                     <p className="mb-6 text-sm uppercase tracking-[0.3em] text-teal-500">
@@ -540,13 +544,13 @@ export default function StorePage() {
                             href="https://m.me/YOUR_FACEBOOK_PAGE"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center rounded-xl bg-[var(--brand-forest)] px-8 py-4 font-semibold text-white transition-colors duration-200 hover:bg-[var(--brand-forest-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-[var(--brand-lime)]/40"
+                            className="orbit-cta"
                         >
                             Request Quote
                         </Link>
 
 
-                        <button className="rounded-xl border border-zinc-700 px-8 py-4 font-semibold text-white hover:border-zinc-500 transition">
+                        <button className="orbit-cta">
                             Browse Products
                         </button>
 
