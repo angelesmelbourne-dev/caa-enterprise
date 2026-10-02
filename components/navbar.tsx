@@ -178,6 +178,14 @@ export default function Navbar() {
                 height={250}
                 className="h-10 w-auto object-contain"
               />
+              <a
+                href="https://m.me/YOURFACEBOOKPAGE"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="orbit-cta navbar-orbit-cta mobile-navigation-quote-top mx-2"
+              >
+                Request Quote
+              </a>
               <button
                 ref={closeButtonRef}
                 type="button"
@@ -194,15 +202,21 @@ export default function Navbar() {
             <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">
               Explore
             </p>
-            <nav aria-label="Mobile navigation links" className="flex flex-col gap-1">
-              {navLinks.map((link) => (
+            <p className="mb-4 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
+              Explore CA&amp;A
+            </p>
+            <nav aria-label="Mobile navigation links" className="flex flex-col">
+              {navLinks.map((link, index) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={closeMenu}
-                  className="rounded-xl px-3 py-3.5 text-base font-medium transition-colors hover:bg-[var(--surface-muted)] hover:text-[var(--brand-forest)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--brand-lime)]"
+                  className="flex items-center justify-between border-b border-[var(--border)] px-3 py-4 text-base font-medium transition-colors hover:text-[var(--brand-forest)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[var(--brand-lime)]"
                 >
-                  {link.label}
+                  <span>{link.label}</span>
+                  <span className="text-sm font-normal tabular-nums text-[var(--text-muted)]">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
                 </a>
               ))}
             </nav>
