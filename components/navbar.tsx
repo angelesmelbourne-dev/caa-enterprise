@@ -199,9 +199,6 @@ export default function Navbar() {
               </button>
             </div>
 
-            <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-muted)]">
-              Explore
-            </p>
             <p className="mb-4 px-3 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--text-muted)]">
               Explore CA&amp;A
             </p>
