@@ -213,3 +213,27 @@ html.reveal-enabled [data-reveal].is-visible {
     transition: none;
   }
 }
+@keyframes mobile-nav-slide-in {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes mobile-nav-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.mobile-nav-drawer {
+  animation: mobile-nav-slide-in 240ms cubic-bezier(.2, .75, .25, 1) both;
+}
+
+.mobile-nav-backdrop {
+  animation: mobile-nav-backdrop-in 180ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mobile-nav-drawer,
+  .mobile-nav-backdrop {
+    animation: none;
+  }
+}
